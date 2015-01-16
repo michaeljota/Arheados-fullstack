@@ -1,38 +1,23 @@
 <div ng-include="'components/others/navbar/navbar.html'"></div>
 
-<header class="hero-unit" id="banner">
-  <div class="container">
-    <h1>'Allo, 'Allo!</h1>
-    <p class="lead">Kick-start your next web app with Angular Fullstack</p>
-    <img src="assets/images/yeoman.png" alt="I'm Yeoman">
+<div class="d" data-ng-init="init()">
+  <div class="mainContainer">
+      <div id="canvasContainer" class="canvasContainer">
+        <canvas id="canvas">
+          Your browser does not support the canvas element.
+        </canvas>
+      </div>
+      <div class="toolbox">
+        <div class="toolset">
+          <ul>
+            <li><a href="" ng-click="tool = 'pencil'" class="pencil"> Pencil </a> </li>
+          <li><a href="" ng-click="tool = 'line'" class="line"> Line </a> </li>
+          <li><a href="" ng-click="tool = 'rectangle'" class="rectangle"> Rectangle </a></li>
+          <li><a href="" ng-click="tool = 'circle'" class="circle"> Circle </a></li>
+              <li><a href="" ng-click="undo()" class="undo"> Undo </a></li>
+              <li><a href="" ng-click="resetCanvas()" class="reset"> Reset </a></li>
+          </ul>
+        </div>
+      </div>
   </div>
-</header>
-
-<div class="container">
-  <div class="row">
-    <div class="col-lg-12">
-      <h1 class="page-header">Features:</h1>
-      <ul class="nav nav-tabs nav-stacked col-md-4 col-lg-4 col-sm-6" ng-repeat="thing in awesomeThings">
-        <li><a href="#" tooltip="{{thing.info}}">{{thing.name}}<button type="button" class="close" ng-click="deleteThing(thing)">&times;</button></a></li>
-      </ul>
-    </div>
-  </div>
-
-  <form class="thing-form">
-    <label>Syncs in realtime across clients</label>
-    <p class="input-group">
-      <input type="text" class="form-control" placeholder="Add a new thing here." ng-model="newThing">
-      <span class="input-group-btn">
-        <button type="submit" class="btn btn-primary" ng-click="addThing()">Add New</button>
-      </span>
-    </p>
-  </form>
 </div>
-
-<footer class="footer">
-  <div class="container">
-      <p>Angular Fullstack v2.0.13 |
-        <a href="https://twitter.com/tyhenkel">@tyhenkel</a> |
-         <a href="https://github.com/DaftMonk/generator-angular-fullstack/issues?state=open">Issues</a></p>
-  </div>
-</footer>

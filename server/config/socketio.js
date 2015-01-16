@@ -21,6 +21,10 @@ function onConnect(socket) {
   require('../api/thing/thing.socket').register(socket);
 }
 
+function onDraw(io, shape) {
+  io.emit('draw', shape);
+}
+
 module.exports = function (socketio) {
   // socket.io (v1.x.x) is powered by debug.
   // In order to see all the debug output, set DEBUG (in server/config/local.env.js) to including the desired scope.
@@ -48,6 +52,10 @@ module.exports = function (socketio) {
     socket.on('disconnect', function () {
       onDisconnect(socket);
       console.info('[%s] DISCONNECTED', socket.address);
+    });
+
+    socket.on('draw', function(shape){
+      onDraw(socketio, shape);
     });
 
     // Call onConnect.

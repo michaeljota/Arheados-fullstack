@@ -22,9 +22,43 @@
     background: #4393B9;
 }
 
-.footer {
-    text-align: center;
-    padding: 30px 0;
-    margin-top: 70px;
-    border-top: 1px solid #E5E5E5;
+.mainContainer {
+  margin: 0 auto;
+  padding: 5px;
+  width: 98%;
+  background-color: #bdc3c7;
 }
+
+.canvasContainer {
+  width: 100%;
+  margin: 0 auto;
+}
+
+canvas {
+  border-radius: 5px;
+  cursor: crosshair;
+  background-color: white;
+  touch-action: none;
+}
+
+.toolbox {
+  border-style: solid;
+  border-radius: 5px;
+  border-color: white;
+}
+
+.toolset ul {
+  margin: 0px;
+  padding: 0px;
+}
+
+.toolset li {
+  display: inline-block;
+  padding: 2px 5px;
+}
+
+.toolset a {
+  text-decoration: none;
+  color: white;
+}
+
