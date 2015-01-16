@@ -8,5 +8,5 @@ module.exports = {
     uri: 'mongodb://localhost/arheadosfullstack-dev'
   },
 
-  seedDB: true
+  seedDB: false
 };

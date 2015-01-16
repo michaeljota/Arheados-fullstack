@@ -1,6 +1,7 @@
 {
   "name": "arheados-fullstack",
-  "version": "0.0.0",
+  "version": "0.1.0",
+  "author": "Michael De Abreu <michaeljota@outlook.com>",
   "main": "server/app.js",
   "dependencies": {
     "express": "~4.0.0",
