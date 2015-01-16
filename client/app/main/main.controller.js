@@ -115,7 +115,7 @@ angular.module('arheadosFullstackApp')
         }
         points.push(point);
         if($scope.tool !== 'pencil'){
-          renderShapeStorage();
+          socket.socket.emit('renderShapeStorage');
         }
         if(points.length > 1){
           socket.socket.emit('draw', getShape());
@@ -125,7 +125,7 @@ angular.module('arheadosFullstackApp')
 
     endDrawing = function () {
       if(points.length > 1){
-          shapeStorage.push(getShape());
+          socket.socket.emit('saveShape', getShape());
       }
       renderShapeStorage();
       resetPoints();
@@ -190,6 +190,14 @@ angular.module('arheadosFullstackApp')
       socket.socket.on('draw', function(shape){
         renderShape(shape);
         console.log(shape);
+      });
+
+      socket.socket.on('saveShape', function(shape){
+        shapeStorage.push(shape);
+      });
+
+      socket.socket.on('renderShapeStorage', function(){
+        renderShapeStorage();
       });
 
     };

@@ -25,6 +25,10 @@ function onDraw(io, shape) {
   io.emit('draw', shape);
 }
 
+function onSaveShape(io, shape) {
+  io.emit('saveShape', shape);
+}
+
 module.exports = function (socketio) {
   // socket.io (v1.x.x) is powered by debug.
   // In order to see all the debug output, set DEBUG (in server/config/local.env.js) to including the desired scope.
@@ -56,6 +60,14 @@ module.exports = function (socketio) {
 
     socket.on('draw', function(shape){
       onDraw(socketio, shape);
+    });
+
+    socket.on('saveShape', function(shape){
+      onSaveShape(socketio, shape);
+    });
+
+    socket.on('renderShapeStorage', function(){
+      socketio.emit('renderShapeStorage');
     });
 
     // Call onConnect.
