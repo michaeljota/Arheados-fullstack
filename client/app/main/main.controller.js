@@ -86,6 +86,9 @@ angular.module('arheadosFullstackApp')
         points = [];
         points.push(starPoint);
         points.push(endPoint);
+        $scope.filled = true;
+      }else{
+        $scope.filled = false;
       }
       return {
         ToolName: $scope.tool,
@@ -155,7 +158,7 @@ angular.module('arheadosFullstackApp')
     $scope.lineWidth = 1;
     $scope.lineCap = 'round';
     $scope.fillStyle = colors.gray;
-    $scope.filled = false;
+    $scope.filled = true;
     $scope.stroked = true;
 
     //Funcions
@@ -187,21 +190,20 @@ angular.module('arheadosFullstackApp')
 
       //Start socket events
 
-      socket.socket.on('draw', function(shape){
+      socket.socket.on('draw', function(shape) {
         renderShape(shape);
         console.log(shape);
       });
 
-      socket.socket.on('saveShape', function(shape){
+      socket.socket.on('saveShape', function(shape) {
         shapeStorage.push(shape);
       });
 
-      socket.socket.on('renderShapeStorage', function(){
+      socket.socket.on('renderShapeStorage', function() {
         renderShapeStorage();
       });
 
     };
-
 
     $scope.resetCanvas = function (){
       shapeStorage = [];
