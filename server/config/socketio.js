@@ -5,6 +5,7 @@
 'use strict';
 
 var config = require('./environment');
+var shapeStorage = [];
 
 // When the user disconnects.. perform this
 function onDisconnect(socket) {
@@ -19,14 +20,6 @@ function onConnect(socket) {
 
   // Insert sockets below
   require('../api/thing/thing.socket').register(socket);
-}
-
-function onDraw(io, shape) {
-  io.emit('draw', shape);
-}
-
-function onSaveShape(io, shape) {
-  io.emit('saveShape', shape);
 }
 
 module.exports = function (socketio) {
@@ -59,16 +52,28 @@ module.exports = function (socketio) {
     });
 
     socket.on('draw', function(shape){
-      onDraw(socketio, shape);
+      socketio.emit('draw', shape);
     });
 
     socket.on('saveShape', function(shape){
-      onSaveShape(socketio, shape);
+      shapeStorage.push(shape);
+      socketio.emit('syncShapeStorage', shapeStorage);
     });
 
     socket.on('renderShapeStorage', function(){
       socketio.emit('renderShapeStorage');
     });
+
+    socket.on('resetShapeStorage', function(){
+      shapeStorage = [];
+      socketio.emit('syncShapeStorage', shapeStorage);
+    });
+
+    socket.on('remoteDrawing', function(active) {
+      socketio.emit('remoteDrawing', active);
+    });
+
+    socketio.emit('syncShapeStorage', shapeStorage);
 
     // Call onConnect.
     onConnect(socket);
