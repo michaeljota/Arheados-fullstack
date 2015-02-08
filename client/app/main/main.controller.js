@@ -16,13 +16,15 @@ angular.module('arheadosFullstackApp')
 
       resizeCanvas = function () {
         var container = document.getElementById('canvasContainer');
-        var w = container.clientWidth;
-        var h = window.innerHeight * 0.70;
+        var preSize = {
+          width : container.clientWidth,
+          height : window.innerHeight * 0.70
+        };
+        drawSyncManager.setScaleFrom(preSize);
 
-        canvas.width  = w;
-        canvas.height = h;
+        canvas.width  = drawSyncManager.CANVAS_SIZE * drawSyncManager.getScale();
+        canvas.height = drawSyncManager.CANVAS_SIZE * drawSyncManager.getScale();
 
-        drawSyncManager.setCanvasSize({width: w, height: h});
         drawSyncManager.renderShapeStorage();
       }
       ;
@@ -42,6 +44,8 @@ angular.module('arheadosFullstackApp')
 
     $scope.init = function () {
       canvas = document.getElementById('canvas');
+      canvas.width  = drawSyncManager.CANVAS_SIZE;
+      canvas.height = drawSyncManager.CANVAS_SIZE;
       drawSyncManager.setContext(canvas.getContext('2d'));
 
       canvas.ontouchstart =
@@ -61,9 +65,10 @@ angular.module('arheadosFullstackApp')
 
       canvas.ontouchend =
       canvas.ontouchcancel =
-        canvas.onmouseup = function () {
-          drawSyncManager.endDrawing();
-        };
+      canvas.onmouseleave =
+      canvas.onmouseup = function () {
+        drawSyncManager.endDrawing();
+      };
 
       window.addEventListener('resize', resizeCanvas);
       window.addEventListener('load', resizeCanvas());

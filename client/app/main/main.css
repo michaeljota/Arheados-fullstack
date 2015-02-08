@@ -25,13 +25,10 @@
 .mainContainer {
   margin: 0 auto;
   padding: 5px;
-  width: 98%;
   background-color: #bdc3c7;
 }
 
 .canvasContainer {
-  width: 100%;
-  margin: 0 auto;
 }
 
 canvas {
@@ -39,6 +36,7 @@ canvas {
   cursor: crosshair;
   background-color: white;
   touch-action: none;
+  margin: 0 auto;
 }
 
 .toolbox {

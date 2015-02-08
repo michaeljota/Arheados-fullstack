@@ -21,11 +21,15 @@ angular.module('arheadosFullstackApp')
     }
 
     var
-      canvasSize,
+      CANVAS_SIZE = 600;
+
+    var
       context,
       shapeStorage = [],
       tmpShape,
       remoteDrawing = false,
+      scale,
+      offset,
 
     //Functions
 
@@ -82,7 +86,7 @@ angular.module('arheadosFullstackApp')
       },
 
       renderShapeStorage = function() {
-        context.clearRect(0,0, canvasSize.width, canvasSize.height);
+        context.clearRect(0,0, CANVAS_SIZE, CANVAS_SIZE);
         for (var i = 0; i < shapeStorage.length; i++) {
           renderShape(shapeStorage[i]);
         }
@@ -100,12 +104,12 @@ angular.module('arheadosFullstackApp')
         if (tmpShape) {
           var point = (event.touches) ?
           {
-            x: event.touches[0].pageX - event.target.offsetLeft,
-            y: event.touches[0].pageY - event.target.offsetTop
+            x: (event.touches[0].pageX - event.target.offsetLeft),
+            y: (event.touches[0].pageY - event.target.offsetTop)
           } :
           {
-            x: event.pageX - event.target.offsetLeft,
-            y: event.pageY - event.target.offsetTop
+            x: (event.pageX - event.target.offsetLeft),
+            y: (event.pageY - event.target.offsetTop)
           };
           if(tmpShape.ToolName !== 'pencil'){
             socket.socket.emit('renderShapeStorage');
@@ -131,7 +135,15 @@ angular.module('arheadosFullstackApp')
 
       resetTmpShape = function() {
         tmpShape = null;
-      };
+      },
+
+      setScaleFrom = function(preSize) {
+        var factor;
+        factor = preSize.height < preSize.width ? preSize.height : preSize.width;
+        scale = factor/CANVAS_SIZE;
+        context.scale(scale, scale);
+      }
+      ;
 
     //Sync
 
@@ -152,6 +164,10 @@ angular.module('arheadosFullstackApp')
 
     socket.socket.on('remoteDrawing', function(active) {
       remoteDrawing = active;
+    });
+
+    socket.socket.on('cancelDraw', function(){
+      resetTmpShape();
     });
 
     return {
@@ -176,9 +192,7 @@ angular.module('arheadosFullstackApp')
         context = ctx;
       },
 
-      setCanvasSize : function (cnvSize) {
-        canvasSize = cnvSize;
-      },
+      CANVAS_SIZE : CANVAS_SIZE,
 
       resetDraw : function () {
         context.translate(0,0);
@@ -194,6 +208,14 @@ angular.module('arheadosFullstackApp')
 
       renderShapeStorage : function () {
         renderShapeStorage();
+      },
+
+      setScaleFrom : function (preSize) {
+        setScaleFrom(preSize);
+      },
+
+      getScale : function(){
+        return scale;
       }
 
     };

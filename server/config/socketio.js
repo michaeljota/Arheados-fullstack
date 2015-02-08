@@ -6,6 +6,7 @@
 
 var config = require('./environment');
 var shapeStorage = [];
+var remoteDrawing = false;
 
 // When the user disconnects.. perform this
 function onDisconnect(socket) {
@@ -66,14 +67,19 @@ module.exports = function (socketio) {
 
     socket.on('resetShapeStorage', function(){
       shapeStorage = [];
+      remoteDrawing = false;
+      socketio.emit('remoteDrawing', remoteDrawing);
       socketio.emit('syncShapeStorage', shapeStorage);
+      socketio.emit('cancelDraw');
     });
 
     socket.on('remoteDrawing', function(active) {
-      socketio.emit('remoteDrawing', active);
+      remoteDrawing = active;
+      socketio.emit('remoteDrawing', remoteDrawing);
     });
 
     socketio.emit('syncShapeStorage', shapeStorage);
+    socketio.emit('remoteDrawing', remoteDrawing);
 
     // Call onConnect.
     onConnect(socket);
